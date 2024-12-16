@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Multi-Page Web</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .page {
+            display: none;
+            height: 100vh;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 2rem;
+            color: white;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .page.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #page1 { background-color: #3498db; }
+        #page2 { background-color: #2ecc71; }
+        #page3 { background-color: #e74c3c; }
+
+        .pagination {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .pagination button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .pagination button:hover {
+            background-color: #555;
+            transform: scale(1.1);
+        }
+
+        .pagination button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page1" class="page active">Welcome to Page 1</div>
+    <div id="page2" class="page">This is Page 2</div>
+    <div id="page3" class="page">You are now on Page 3</div>
+
+    <div class="pagination">
+        <button id="prev">Previous</button>
+        <button id="next">Next</button>
+    </div>
+
+    <script>
+        const pages = document.querySelectorAll('.page');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        let currentPage = 0;
+
+        function updatePage() {
+            pages.forEach((page, index) => {
+                page.classList.toggle('active', index === currentPage);
+            });
+            prevButton.disabled = currentPage === 0;
+            nextButton.disabled = currentPage === pages.length - 1;
+        }
+
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                updatePage();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentPage < pages.length - 1) {
+                currentPage++;
+                updatePage();
+            }
+        });
+
+        updatePage();
+    </script>
+
+</body>
+</html>
